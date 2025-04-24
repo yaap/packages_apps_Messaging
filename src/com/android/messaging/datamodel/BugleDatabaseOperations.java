@@ -24,6 +24,7 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 
 import androidx.collection.ArrayMap;
@@ -45,7 +46,6 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.AvatarUriUtil;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UriUtil;
@@ -433,7 +433,7 @@ public class BugleDatabaseOperations {
         Assert.isNotMainThread();
         dbWrapper.beginTransaction();
         boolean conversationDeleted = false;
-        boolean conversationMessagesDeleted = false;
+        boolean conversationMessagesDeleted;
         try {
             // Delete existing messages
             if (cutoffTimestamp == Long.MAX_VALUE) {
@@ -1558,7 +1558,7 @@ public class BugleDatabaseOperations {
     public static ParticipantData getOrCreateSelf(final DatabaseWrapper dbWrapper,
             final int subId) {
         Assert.isNotMainThread();
-        ParticipantData participant = null;
+        ParticipantData participant;
         dbWrapper.beginTransaction();
         try {
             final ParticipantData shell = ParticipantData.getSelfParticipant(subId);
@@ -1583,8 +1583,8 @@ public class BugleDatabaseOperations {
         Assert.isNotMainThread();
         Assert.isTrue(dbWrapper.getDatabase().inTransaction());
         int subId = ParticipantData.OTHER_THAN_SELF_SUB_ID;
-        String participantId = null;
-        String canonicalRecipient = null;
+        String participantId;
+        String canonicalRecipient;
         if (participant.isSelf()) {
             subId = participant.getSubId();
             canonicalRecipient = getCanonicalRecipientFromSubId(subId);

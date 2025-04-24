@@ -22,13 +22,12 @@ import android.database.Cursor;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.annotation.Nullable;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Formatter;
 import android.text.style.URLSpan;
-import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -41,6 +40,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -65,8 +66,8 @@ import com.android.messaging.ui.VideoThumbnailView;
 import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImageUtils;
+import com.android.messaging.util.LinkifyHelper;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
@@ -123,37 +124,37 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
+        mContactIconView = findViewById(R.id.conversation_icon);
         mContactIconView.setOnLongClickListener(view -> {
             ConversationMessageView.this.performLongClick();
             return true;
         });
 
-        mMessageAttachmentsView = (LinearLayout) findViewById(R.id.message_attachments);
-        mMultiAttachmentView = (MultiAttachmentLayout) findViewById(R.id.multiple_attachments);
+        mMessageAttachmentsView = findViewById(R.id.message_attachments);
+        mMultiAttachmentView = findViewById(R.id.multiple_attachments);
         mMultiAttachmentView.setOnAttachmentClickListener(this);
 
-        mMessageImageView = (AsyncImageView) findViewById(R.id.message_image);
+        mMessageImageView = findViewById(R.id.message_image);
         mMessageImageView.setOnClickListener(this);
         mMessageImageView.setOnLongClickListener(this);
 
-        mMessageTextView = (TextView) findViewById(R.id.message_text);
+        mMessageTextView = findViewById(R.id.message_text);
         mMessageTextView.setOnClickListener(this);
         IgnoreLinkLongClickHelper.ignoreLinkLongClick(mMessageTextView, this);
 
-        mStatusTextView = (TextView) findViewById(R.id.message_status);
-        mTitleTextView = (TextView) findViewById(R.id.message_title);
-        mMmsInfoTextView = (TextView) findViewById(R.id.mms_info);
-        mMessageTitleLayout = (LinearLayout) findViewById(R.id.message_title_layout);
-        mSenderNameTextView = (TextView) findViewById(R.id.message_sender_name);
-        mMessageBubble = (ConversationMessageBubbleView) findViewById(R.id.message_content);
+        mStatusTextView = findViewById(R.id.message_status);
+        mTitleTextView = findViewById(R.id.message_title);
+        mMmsInfoTextView = findViewById(R.id.mms_info);
+        mMessageTitleLayout = findViewById(R.id.message_title_layout);
+        mSenderNameTextView = findViewById(R.id.message_sender_name);
+        mMessageBubble = findViewById(R.id.message_content);
         mSubjectView = findViewById(R.id.subject_container);
-        mSubjectLabel = (TextView) mSubjectView.findViewById(R.id.subject_label);
-        mSubjectText = (TextView) mSubjectView.findViewById(R.id.subject_text);
+        mSubjectLabel = mSubjectView.findViewById(R.id.subject_label);
+        mSubjectText = mSubjectView.findViewById(R.id.subject_text);
         mDeliveredBadge = findViewById(R.id.smsDeliveredBadge);
-        mMessageMetadataView = (ViewGroup) findViewById(R.id.message_metadata);
-        mMessageTextAndInfoView = (ViewGroup) findViewById(R.id.message_text_and_info);
-        mSimNameView = (TextView) findViewById(R.id.sim_name);
+        mMessageMetadataView = findViewById(R.id.message_metadata);
+        mMessageTextAndInfoView = findViewById(R.id.message_text_and_info);
+        mSimNameView = findViewById(R.id.sim_name);
     }
 
     @Override
@@ -642,7 +643,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             mMessageTextView.setText(text);
             // Linkify phone numbers, web urls, emails, and map addresses to allow users to
             // click on them and take the default intent.
-            mMessageTextHasLinks = Linkify.addLinks(mMessageTextView, Linkify.ALL);
+            mMessageTextHasLinks = LinkifyHelper.addLinks(mMessageTextView);
             mMessageTextView.setVisibility(View.VISIBLE);
         } else {
             mMessageTextView.setVisibility(View.GONE);
@@ -881,8 +882,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     private void updateTextAppearance() {
         int messageColorResId;
-        int statusColorResId = -1;
-        int infoColorResId = -1;
+        int statusColorResId;
+        int infoColorResId;
         int timestampColorResId;
         int subjectLabelColorResId;
         if (isSelected()) {

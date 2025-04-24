@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -55,7 +56,6 @@ import com.android.messaging.ui.ContactIconView;
 import com.android.messaging.ui.SnackBar;
 import com.android.messaging.ui.SnackBarInteraction;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Typefaces;
@@ -145,22 +145,21 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mSwipeableContainer = (ViewGroup) findViewById(R.id.swipeableContainer);
-        mCrossSwipeBackground = (ViewGroup) findViewById(R.id.crossSwipeBackground);
-        mSwipeableContent = (ViewGroup) findViewById(R.id.swipeableContent);
-        mConversationNameView = (TextView) findViewById(R.id.conversation_name);
-        mSnippetTextView = (TextView) findViewById(R.id.conversation_snippet);
-        mSubjectTextView = (TextView) findViewById(R.id.conversation_subject);
-        mWorkProfileIconView = (ImageView) findViewById(R.id.work_profile_icon);
-        mTimestampTextView = (TextView) findViewById(R.id.conversation_timestamp);
-        mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
-        mContactCheckmarkView = (ImageView) findViewById(R.id.conversation_checkmark);
-        mFailedStatusIconView = (ImageView) findViewById(R.id.conversation_failed_status_icon);
-        mCrossSwipeArchiveLeftImageView = (ImageView) findViewById(R.id.crossSwipeArchiveIconLeft);
-        mCrossSwipeArchiveRightImageView =
-                (ImageView) findViewById(R.id.crossSwipeArchiveIconRight);
-        mImagePreviewView = (AsyncImageView) findViewById(R.id.conversation_image_preview);
-        mAudioAttachmentView = (AudioAttachmentView) findViewById(R.id.audio_attachment_view);
+        mSwipeableContainer = findViewById(R.id.swipeableContainer);
+        mCrossSwipeBackground = findViewById(R.id.crossSwipeBackground);
+        mSwipeableContent = findViewById(R.id.swipeableContent);
+        mConversationNameView = findViewById(R.id.conversation_name);
+        mSnippetTextView = findViewById(R.id.conversation_snippet);
+        mSubjectTextView = findViewById(R.id.conversation_subject);
+        mWorkProfileIconView = findViewById(R.id.work_profile_icon);
+        mTimestampTextView = findViewById(R.id.conversation_timestamp);
+        mContactIconView = findViewById(R.id.conversation_icon);
+        mContactCheckmarkView = findViewById(R.id.conversation_checkmark);
+        mFailedStatusIconView = findViewById(R.id.conversation_failed_status_icon);
+        mCrossSwipeArchiveLeftImageView = findViewById(R.id.crossSwipeArchiveIconLeft);
+        mCrossSwipeArchiveRightImageView = findViewById(R.id.crossSwipeArchiveIconRight);
+        mImagePreviewView = findViewById(R.id.conversation_image_preview);
+        mAudioAttachmentView = findViewById(R.id.audio_attachment_view);
         mConversationNameView.addOnLayoutChangeListener(this);
         mSnippetTextView.addOnLayoutChangeListener(this);
 

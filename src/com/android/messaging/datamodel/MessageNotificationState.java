@@ -23,6 +23,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -52,7 +53,6 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ConversationIdSet;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.NotificationsUtil;
@@ -377,7 +377,7 @@ public abstract class MessageNotificationState extends NotificationState {
         @Override
         protected NotificationCompat.Style build(final Builder builder) {
             builder.setContentTitle(mTitle);
-            NotificationCompat.InboxStyle inboxStyle = null;
+            NotificationCompat.InboxStyle inboxStyle;
             inboxStyle = new NotificationCompat.InboxStyle(builder);
 
             final Context context = Factory.get().getApplicationContext();
@@ -507,7 +507,7 @@ public abstract class MessageNotificationState extends NotificationState {
             builder.setContentTitle(mTitle)
                 .setTicker(getTicker());
 
-            NotificationCompat.Style notifStyle = null;
+            NotificationCompat.Style notifStyle;
             final ConversationLineInfo convInfo = mConvList.mConvInfos.get(0);
             final List<NotificationLineInfo> lineInfos = convInfo.mLineInfos;
             final int messageCount = lineInfos.size();

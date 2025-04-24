@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -70,7 +71,6 @@ import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ConversationIdSet;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.LogUtil;
@@ -89,7 +89,7 @@ import java.util.Set;
 /**
  * Handle posting, updating and removing all conversation notifications.
  *
- * There are currently two main classes of notification and their rules: <p>
+ * There is currently one main class of notification and rules: <p>
  * 1) Messages - {@link MessageNotificationState}. Only one message notification.
  * Unread messages across senders and conversations are coalesced.<p>
  *
@@ -886,7 +886,7 @@ public class BugleNotifications {
         NotificationsUtil.createNotificationChannel(context,
                 NotificationsUtil.DEFAULT_CHANNEL_ID,
                 R.string.notification_channel_messages_title,
-                NotificationManager.IMPORTANCE_DEFAULT,
+                NotificationManager.IMPORTANCE_HIGH,
                 NotificationsUtil.CONVERSATION_GROUP_NAME);
         notificationManager.notify(notificationTag, type, notification);
 
