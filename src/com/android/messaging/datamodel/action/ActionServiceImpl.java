@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import com.android.messaging.util.LoggingTimer;
  */
 public class ActionServiceImpl extends JobIntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
-    private static final boolean VERBOSE = false;
 
     /**
      * Unique job ID for this service.
@@ -204,17 +203,11 @@ public class ActionServiceImpl extends JobIntentService {
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
     /**
      * Queue intent to the ActionService.
      */
     private static void startServiceWithIntent(final Intent intent) {
         final Context context = Factory.get().getApplicationContext();
-        final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
         intent.setClass(context, ActionServiceImpl.class);
         enqueueWork(context, intent);
     }
